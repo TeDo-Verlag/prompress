@@ -69,7 +69,7 @@ function register_settings() {
 function get_settings(): array {
 	$defaults             = default_settings();
 	$settings             = \get_option( 'prompress_settings', $defaults );
-	$settings             = \wp_parse_args( $settings, $defaults );
+	$settings             = \wp_parse_args( $settings ?: [] , $defaults );
 	$settings['features'] = \wp_parse_args( $settings['features'], $defaults['features'] );
 
 	return $settings;

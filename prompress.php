@@ -33,6 +33,15 @@ if ( ! \function_exists( 'add_filter' ) ) {
 \define( 'PROMPRESS_MIN_WP_VERSION', '6.4' );
 
 /**
+ * returns plugin base name
+ */
+function prompress_plugin_basename(): string {
+	static $basename;
+
+	return $basename ??= \plugin_basename( __FILE__ );
+}
+
+/**
  * Check for required PHP version.
  *
  * @return bool
@@ -109,7 +118,9 @@ if ( ! php_version_check() || ! wp_version_check() || ! redis_extension_check() 
 	return;
 }
 
-require_once PROMPRESS_DIR . 'vendor/autoload.php';
+if (! interface_exists('\\Prometheus\\RegistryInterface')) {
+	require_once PROMPRESS_DIR . 'vendor/autoload.php';
+}
 require_once PROMPRESS_DIR . 'inc/assets.php';
 require_once PROMPRESS_DIR . 'inc/settings.php';
 require_once PROMPRESS_DIR . 'inc/class-cli.php';
